@@ -7,12 +7,12 @@ import {
   SNSTestClient,
 } from '@andybalham/cdk-cloud-test-kit';
 import { Event } from './Event';
-import SimpleEventRouterTestStack from './SimpleEventRouterTestStack';
+import { SimpleEventRouterTestStack as TestStack } from './SimpleEventRouterTestStack';
 
 describe('SimpleEventRouter Test Suite', () => {
   //
   const testClient = new IntegrationTestClient({
-    testStackId: SimpleEventRouterTestStack.Id,
+    testStackId: TestStack.Id,
   });
 
   let testInputTopic: SNSTestClient;
@@ -20,9 +20,7 @@ describe('SimpleEventRouter Test Suite', () => {
   before(async () => {
     await testClient.initialiseClientAsync();
 
-    testInputTopic = testClient.getSNSTestClient(
-      SimpleEventRouterTestStack.TestInputTopicId
-    );
+    testInputTopic = testClient.getSNSTestClient(TestStack.TestInputTopicId);
   });
 
   beforeEach(async () => {
@@ -54,12 +52,12 @@ describe('SimpleEventRouter Test Suite', () => {
 
     const positiveObservations = TestObservation.filterById(
       observations,
-      SimpleEventRouterTestStack.PositiveOutputTopicSubscriberId
+      TestStack.PositiveOutputTopicSubscriberId
     );
 
     const negativeObservations = TestObservation.filterById(
       observations,
-      SimpleEventRouterTestStack.NegativeOutputTopicSubscriberId
+      TestStack.NegativeOutputTopicSubscriberId
     );
 
     expect(positiveObservations.length).to.be.greaterThan(0);
@@ -104,12 +102,12 @@ describe('SimpleEventRouter Test Suite', () => {
 
       const positiveObservations = TestObservation.filterById(
         observations,
-        SimpleEventRouterTestStack.PositiveOutputTopicSubscriberId
+        TestStack.PositiveOutputTopicSubscriberId
       );
 
       const negativeObservations = TestObservation.filterById(
         observations,
-        SimpleEventRouterTestStack.NegativeOutputTopicSubscriberId
+        TestStack.NegativeOutputTopicSubscriberId
       );
 
       let actualObservations: TestObservation[];

@@ -1,11 +1,12 @@
+/* eslint-disable import/prefer-default-export */
 import { Construct } from 'constructs';
 import { aws_sns as sns } from 'aws-cdk-lib';
 import { IntegrationTestStack } from '@andybalham/cdk-cloud-test-kit';
 import SimpleEventRouterConstruct from './SimpleEventRouter';
 
-export default class SimpleEventRouterTestStack extends IntegrationTestStack {
+export class SimpleEventRouterTestStack extends IntegrationTestStack {
   //
-  static readonly Id = `SimpleEventRouterTestStack`;
+  static readonly Id = `SimpleEventRouterTestStack-Final`;
 
   static readonly TestInputTopicId = 'TestInputTopic';
 

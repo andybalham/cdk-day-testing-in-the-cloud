@@ -10,11 +10,13 @@
     "build": "npm run lint && tsc",
     "test": "mocha --require ts-node/register test/**/*.ts",
     "all-synth": "tsc && cdk synth",
-    "all-deploy": "tsc && cdk deploy",
     "all-destroy": "tsc && cdk destroy --all",
-    "simple-event-router-synth": "tsc && cdk synth SimpleEventRouterTestStack",
-    "simple-event-router-deploy": "tsc && cdk deploy SimpleEventRouterTestStack",
-    "simple-event-router-destroy": "tsc && cdk destroy SimpleEventRouterTestStack"
+    "final-synth": "tsc && cdk synth SimpleEventRouterTestStack-Final > .cdk-synth.yml",
+    "final-deploy": "tsc && cdk deploy SimpleEventRouterTestStack-Final --hotswap",
+    "final-destroy": "tsc && cdk destroy SimpleEventRouterTestStack-Final",
+    "demo-synth": "tsc && cdk synth SimpleEventRouterTestStack-Demo > .cdk-synth.yml",
+    "demo-deploy": "tsc && cdk deploy SimpleEventRouterTestStack-Demo --hotswap",
+    "demo-destroy": "tsc && cdk destroy SimpleEventRouterTestStack-Demo"
   },
   "repository": {
     "type": "git",
