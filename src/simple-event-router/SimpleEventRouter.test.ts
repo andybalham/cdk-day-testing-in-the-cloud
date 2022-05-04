@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import { SNSEvent } from 'aws-lambda';
+import { SNSEvent, SNSEventRecord } from 'aws-lambda';
 import { expect } from 'chai';
 import {
   TestObservation,
@@ -19,7 +19,10 @@ describe('SimpleEventRouter Test Suite', () => {
 
   before(async () => {
     await testClient.initialiseClientAsync();
-    testInputTopic = testClient.getSNSTestClient(SimpleEventRouterTestStack.TestInputTopicId);
+
+    testInputTopic = testClient.getSNSTestClient(
+      SimpleEventRouterTestStack.TestInputTopicId
+    );
   });
 
   beforeEach(async () => {
@@ -62,9 +65,13 @@ describe('SimpleEventRouter Test Suite', () => {
     expect(positiveObservations.length).to.be.greaterThan(0);
     expect(negativeObservations.length).to.equal(0);
 
-    const routedEvent = JSON.parse(
-      (positiveObservations[0].data as SNSEvent).Records[0].Sns.Message
-    );
+    const positiveEventRecords = TestObservation.getEventRecords<
+      SNSEvent,
+      SNSEventRecord
+    >(positiveObservations);
+
+    const routedEvent = JSON.parse(positiveEventRecords[0].Sns.Message);
+
     expect(routedEvent).to.deep.equal(testEvent);
   });
 
@@ -89,15 +96,11 @@ describe('SimpleEventRouter Test Suite', () => {
 
       const { observations, timedOut } = await testClient.pollTestAsync({
         until: async (o) => o.length > 0,
-        intervalSeconds: 2,
-        timeoutSeconds: 12,
       });
 
       // Assert
 
       expect(timedOut, 'timedOut').to.be.false;
-
-      expect(observations.length).to.equal(1);
 
       const positiveObservations = TestObservation.filterById(
         observations,
@@ -109,26 +112,25 @@ describe('SimpleEventRouter Test Suite', () => {
         SimpleEventRouterTestStack.NegativeOutputTopicSubscriberId
       );
 
+      let actualObservations: TestObservation[];
+
       if (theory.isExpectedPositive) {
-        //
-        expect(positiveObservations.length).to.be.greaterThan(0);
+        actualObservations = positiveObservations;
         expect(negativeObservations.length).to.equal(0);
-
-        const routedEvent = JSON.parse(
-          (positiveObservations[0].data as SNSEvent).Records[0].Sns.Message
-        );
-        expect(routedEvent).to.deep.equal(testEvent);
-        //
       } else {
-        //
+        actualObservations = negativeObservations;
         expect(positiveObservations.length).to.equal(0);
-        expect(negativeObservations.length).to.be.greaterThan(0);
-
-        const routedEvent = JSON.parse(
-          (negativeObservations[0].data as SNSEvent).Records[0].Sns.Message
-        );
-        expect(routedEvent).to.deep.equal(testEvent);
       }
+
+      expect(actualObservations.length).to.be.greaterThan(0);
+
+      const actualEventRecords = TestObservation.getEventRecords<
+        SNSEvent,
+        SNSEventRecord
+      >(actualObservations);
+
+      const actualEvent = JSON.parse(actualEventRecords[0].Sns.Message);
+      expect(actualEvent).to.deep.equal(testEvent);
     });
   });
 });

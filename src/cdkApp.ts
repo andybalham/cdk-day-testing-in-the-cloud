@@ -3,6 +3,6 @@ import * as cdk from 'aws-cdk-lib';
 import SimpleEventRouterTestStack from './simple-event-router/SimpleEventRouterTestStack';
 
 const app = new cdk.App();
-cdk.Tags.of(app).add('app', 'ExamplesApp');
+cdk.Tags.of(app).add('app', 'cdk-day-testing-in-the-cloud');
 
 new SimpleEventRouterTestStack(app, SimpleEventRouterTestStack.Id);

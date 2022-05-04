@@ -1,38 +1,54 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-console */
-/* eslint-disable import/prefer-default-export */
-import { SNSEvent } from 'aws-lambda/trigger/sns';
-import { SNS } from 'aws-sdk';
-import { PublishInput } from 'aws-sdk/clients/sns';
-import { Event } from './Event';
+import { Construct } from 'constructs';
+import {
+  aws_sns as sns,
+  aws_sns_subscriptions as snsSubs,
+  aws_lambda_nodejs as lambdaNodejs,
+} from 'aws-cdk-lib';
 
-const sns = new SNS();
+export interface SimpleEventRouterProps {
+  inputTopic: sns.ITopic;
+}
 
-export const handler = async (event: SNSEvent): Promise<void> => {
+export default class SimpleEventRouterConstruct extends Construct {
   //
-  console.log(JSON.stringify({ event }, null, 2));
+  readonly positiveOutputTopic: sns.ITopic;
 
-  for await (const record of event.Records) {
-    //
-    const numbersEvent = JSON.parse(record.Sns.Message) as Event;
+  readonly negativeOutputTopic: sns.ITopic;
 
-    const eventTotal = numbersEvent.values.reduce((total, value) => total + value, 0);
+  constructor(scope: Construct, id: string, props: SimpleEventRouterProps) {
+    super(scope, id);
 
-    const outputTopicArn =
-      eventTotal >= 0
-        ? process.env.POSITIVE_OUTPUT_TOPIC_ARN
-        : process.env.NEGATIVE_OUTPUT_TOPIC_ARN;
+    const outputTopicProps = {};
 
-    if (outputTopicArn === undefined) throw new Error('outputTopicArn === undefined');
+    this.positiveOutputTopic = new sns.Topic(
+      this,
+      'PositiveOutputTopic',
+      outputTopicProps
+    );
 
-    const outputEventRequest: PublishInput = {
-      TopicArn: outputTopicArn,
-      Message: JSON.stringify(numbersEvent),
-    };
+    this.negativeOutputTopic = new sns.Topic(
+      this,
+      'NegativeOutputTopic',
+      outputTopicProps
+    );
 
-    const outputEventResult = await sns.publish(outputEventRequest).promise();
+    const simpleEventRouterFunction = new lambdaNodejs.NodejsFunction(
+      scope,
+      'RouterFunction',
+      {
+        environment: {
+          INPUT_TOPIC_ARN: props.inputTopic.topicArn,
+          POSITIVE_OUTPUT_TOPIC_ARN: this.positiveOutputTopic.topicArn,
+          NEGATIVE_OUTPUT_TOPIC_ARN: this.negativeOutputTopic.topicArn,
+        },
+      }
+    );
 
-    console.log(JSON.stringify({ outputEventResult }, null, 2));
+    props.inputTopic.addSubscription(
+      new snsSubs.LambdaSubscription(simpleEventRouterFunction)
+    );
+
+    this.positiveOutputTopic.grantPublish(simpleEventRouterFunction);
+    this.negativeOutputTopic.grantPublish(simpleEventRouterFunction);
   }
-};
+}

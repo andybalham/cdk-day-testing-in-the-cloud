@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import { aws_sns as sns } from 'aws-cdk-lib';
 import { IntegrationTestStack } from '@andybalham/cdk-cloud-test-kit';
-import SimpleEventRouterConstruct from './SimpleEventRouterConstruct';
+import SimpleEventRouterConstruct from './SimpleEventRouter';
 
 export default class SimpleEventRouterTestStack extends IntegrationTestStack {
   //
@@ -9,9 +9,11 @@ export default class SimpleEventRouterTestStack extends IntegrationTestStack {
 
   static readonly TestInputTopicId = 'TestInputTopic';
 
-  static readonly PositiveOutputTopicSubscriberId = 'PositiveOutputTopicSubscriberFunction';
+  static readonly PositiveOutputTopicSubscriberId =
+    'PositiveOutputTopicSubscriberFunction';
 
-  static readonly NegativeOutputTopicSubscriberId = 'NegativeOutputTopicSubscriberFunction';
+  static readonly NegativeOutputTopicSubscriberId =
+    'NegativeOutputTopicSubscriberFunction';
 
   constructor(scope: Construct, id: string) {
     //
@@ -23,9 +25,15 @@ export default class SimpleEventRouterTestStack extends IntegrationTestStack {
       ],
     });
 
-    const testInputTopic = new sns.Topic(this, SimpleEventRouterTestStack.TestInputTopicId);
+    const testInputTopic = new sns.Topic(
+      this,
+      SimpleEventRouterTestStack.TestInputTopicId
+    );
 
-    this.addTestResourceTag(testInputTopic, SimpleEventRouterTestStack.TestInputTopicId);
+    this.addTestResourceTag(
+      testInputTopic,
+      SimpleEventRouterTestStack.TestInputTopicId
+    );
 
     const sut = new SimpleEventRouterConstruct(this, 'SUT', {
       inputTopic: testInputTopic,
