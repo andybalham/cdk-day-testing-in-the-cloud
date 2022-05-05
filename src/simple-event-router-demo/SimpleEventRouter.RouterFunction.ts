@@ -22,10 +22,11 @@ export const handler = async (event: SNSEvent): Promise<void> => {
       0
     );
 
+    // Hmm... what could possibly be wrong here?
     const outputTopicArn =
       eventTotal >= 0
-        ? process.env.POSITIVE_OUTPUT_TOPIC_ARN
-        : process.env.NEGATIVE_OUTPUT_TOPIC_ARN;
+        ? process.env.POSITIVE_OUTPUT_TOPIC
+        : process.env.NEGATIVE_OUTPUT_TOPIC;
 
     if (outputTopicArn === undefined)
       throw new Error('outputTopicArn === undefined');

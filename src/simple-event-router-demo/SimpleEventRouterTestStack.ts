@@ -1,53 +1,25 @@
 /* eslint-disable import/prefer-default-export */
 import { Construct } from 'constructs';
-import { aws_sns as sns } from 'aws-cdk-lib';
 import { IntegrationTestStack } from '@andybalham/cdk-cloud-test-kit';
-import SimpleEventRouterConstruct from './SimpleEventRouter';
+// cdk-day-stack-imports
 
 export class SimpleEventRouterTestStack extends IntegrationTestStack {
   //
-  static readonly Id = `SimpleEventRouterTestStack-Demo`;
+  static readonly Id = 'SimpleEventRouterTestStack';
 
-  static readonly TestInputTopicId = 'TestInputTopic';
-
-  static readonly PositiveOutputTopicSubscriberId =
-    'PositiveOutputTopicSubscriberFunction';
-
-  static readonly NegativeOutputTopicSubscriberId =
-    'NegativeOutputTopicSubscriberFunction';
+  // cdk-day-test-resource-ids
 
   constructor(scope: Construct, id: string) {
     //
     super(scope, id, {
       testStackId: SimpleEventRouterTestStack.Id,
-      testFunctionIds: [
-        SimpleEventRouterTestStack.PositiveOutputTopicSubscriberId,
-        SimpleEventRouterTestStack.NegativeOutputTopicSubscriberId,
-      ],
+      // cdk-day-test-functions
     });
 
-    const testInputTopic = new sns.Topic(
-      this,
-      SimpleEventRouterTestStack.TestInputTopicId
-    );
+    // cdk-day-test-driver
 
-    this.addTestResourceTag(
-      testInputTopic,
-      SimpleEventRouterTestStack.TestInputTopicId
-    );
+    // // cdk-day-sut
 
-    const sut = new SimpleEventRouterConstruct(this, 'SUT', {
-      inputTopic: testInputTopic,
-    });
-
-    this.addSNSTopicSubscriber(
-      sut.positiveOutputTopic,
-      SimpleEventRouterTestStack.PositiveOutputTopicSubscriberId
-    );
-
-    this.addSNSTopicSubscriber(
-      sut.negativeOutputTopic,
-      SimpleEventRouterTestStack.NegativeOutputTopicSubscriberId
-    );
+    // cdk-day-topic-subscribers
   }
 }

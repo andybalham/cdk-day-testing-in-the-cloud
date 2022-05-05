@@ -1,0 +1,277 @@
+{
+  // Place your cdk-day-testing-in-the-cloud workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+  // Placeholders with the same ids are connected.
+  // Example:
+  // "Print to console": {
+  // 	"scope": "javascript,typescript",
+  // 	"prefix": "log",
+  // 	"body": [
+  // 		"console.log('$1');",
+  // 		"$2"
+  // 	],
+  // 	"description": "Log output to console"
+  // }
+  "cdk-day-test-import": {
+    "prefix": "cdk-day-test-import",
+    "body": [
+      "// cdk-day-test-import\r",
+      "import { SNSEvent, SNSEventRecord } from 'aws-lambda';\r",
+      "import { expect } from 'chai';\r",
+      "import {\r",
+      "  TestObservation,\r",
+      "  IntegrationTestClient,\r",
+      "  SNSTestClient,\r",
+      "} from '@andybalham/cdk-cloud-test-kit';\r",
+      "import { Event } from './Event';\r",
+      "import { SimpleEventRouterTestStack as TestStack } from './SimpleEventRouterTestStack';"
+    ],
+    "description": "description for cdk-day-test-import"
+  },
+  "cdk-day-theory-test": {
+    "prefix": "cdk-day-theory-test",
+    "body": [
+      "// cdk-day-theory-test\r",
+      "// Arrange\r",
+      "\r",
+      "const testEvent: Event = {\r",
+      "  values: theory.values,\r",
+      "};\r",
+      "\r",
+      "// Act\r",
+      "\r",
+      "await testDriverTopic.publishEventAsync(testEvent);\r",
+      "\r",
+      "// Await\r",
+      "\r",
+      "const { observations, timedOut } = await testClient.pollTestAsync({\r",
+      "  until: async (o) => o.length > 0,\r",
+      "});\r",
+      "\r",
+      "// Assert\r",
+      "\r",
+      "expect(timedOut, 'timedOut').to.be.false;\r",
+      "\r",
+      "const positiveObservations = TestObservation.filterById(\r",
+      "  observations,\r",
+      "  TestStack.PositiveOutputSubscriberId\r",
+      ");\r",
+      "\r",
+      "const negativeObservations = TestObservation.filterById(\r",
+      "  observations,\r",
+      "  TestStack.NegativeOutputSubscriberId\r",
+      ");\r",
+      "\r",
+      "let actualObservations: TestObservation[];\r",
+      "\r",
+      "if (theory.isExpectedPositive) {\r",
+      "  actualObservations = positiveObservations;\r",
+      "  expect(negativeObservations.length).to.equal(0);\r",
+      "} else {\r",
+      "  actualObservations = negativeObservations;\r",
+      "  expect(positiveObservations.length).to.equal(0);\r",
+      "}\r",
+      "\r",
+      "expect(actualObservations.length).to.be.greaterThan(0);\r",
+      "\r",
+      "const actualEventRecords = TestObservation.getEventRecords<\r",
+      "  SNSEvent,\r",
+      "  SNSEventRecord\r",
+      ">(actualObservations);\r",
+      "\r",
+      "const actualEvent = JSON.parse(actualEventRecords[0].Sns.Message);\r",
+      "expect(actualEvent).to.deep.equal(testEvent);"
+    ],
+    "description": "description for cdk-day-theory-test"
+  },
+  "cdk-day-assert-event": {
+    "prefix": "cdk-day-assert-event",
+    "body": [
+      "// cdk-day-assert-event\r",
+      "const positiveEventRecords = TestObservation.getEventRecords<\r",
+      "  SNSEvent,\r",
+      "  SNSEventRecord\r",
+      ">(positiveObservations);\r",
+      "\r",
+      "const routedEvent = JSON.parse(positiveEventRecords[0].Sns.Message);\r",
+      "\r",
+      "expect(routedEvent).to.deep.equal(testEvent);"
+    ],
+    "description": "description for cdk-day-assert-event"
+  },
+  "cdk-day-assert-observations": {
+    "prefix": "cdk-day-assert-observations",
+    "body": [
+      "// cdk-day-assert-observations\r",
+      "const positiveObservations = TestObservation.filterById(\r",
+      "  observations,\r",
+      "  TestStack.PositiveOutputSubscriberId\r",
+      ");\r",
+      "\r",
+      "const negativeObservations = TestObservation.filterById(\r",
+      "  observations,\r",
+      "  TestStack.NegativeOutputSubscriberId\r",
+      ");\r",
+      "\r",
+      "expect(positiveObservations.length).to.be.greaterThan(0);\r",
+      "expect(negativeObservations.length).to.equal(0);"
+    ],
+    "description": "description for cdk-day-assert-observations"
+  },
+  "cdk-day-assert-timeout": {
+    "prefix": "cdk-day-assert-timeout",
+    "body": [
+      "// cdk-day-assert-timeout\r",
+      "expect(timedOut, 'timedOut').to.be.false;"
+    ],
+    "description": "description for cdk-day-assert-timeout"
+  },
+  "cdk-day-poll-observations": {
+    "prefix": "cdk-day-poll-observations",
+    "body": [
+      "// cdk-day-poll-observations\r",
+      "const { observations, timedOut } = await testClient.pollTestAsync({\r",
+      "  until: async (o) => o.length > 0,\r",
+      "  intervalSeconds: 2,\r",
+      "  timeoutSeconds: 12,\r",
+      "});"
+    ],
+    "description": "description for cdk-day-poll-observations"
+  },
+  "cdk-day-publish-event": {
+    "prefix": "cdk-day-publish-event",
+    "body": [
+      "// cdk-day-publish-event\r",
+      "await testDriverTopic.publishEventAsync(testEvent);"
+    ],
+    "description": "description for cdk-day-publish-event"
+  },
+  "cdk-day-create-event": {
+    "prefix": "cdk-day-create-event",
+    "body": [
+      "// cdk-day-create-event\r",
+      "const testEvent: Event = {\r",
+      "  values: [1, 2, 3],\r",
+      "};"
+    ],
+    "description": "description for cdk-day-create-event"
+  },
+  "cdk-day-before-each": {
+    "prefix": "cdk-day-before-each",
+    "body": [
+      "// cdk-day-before-each\r",
+      "beforeEach(async () => {\r",
+      "  await testClient.initialiseTestAsync();\r",
+      "});"
+    ],
+    "description": "description for cdk-day-before-each"
+  },
+  "cdk-day-before": {
+    "prefix": "cdk-day-before",
+    "body": [
+      "// cdk-day-before\r",
+      "const testClient = new IntegrationTestClient({\r",
+      "  testStackId: TestStack.Id,\r",
+      "});\r",
+      "\r",
+      "let testDriverTopic: SNSTestClient;\r",
+      "\r",
+      "before(async () => {\r",
+      "  await testClient.initialiseClientAsync();\r",
+      "\r",
+      "  testDriverTopic = testClient.getSNSTestClient(TestStack.TestDriverTopicId);\r",
+      "});"
+    ],
+    "description": "description for cdk-day-before"
+  },
+	"cdk-day-topic-subscribers": {
+		"prefix": "cdk-day-topic-subscribers",
+		"body": [
+			"// cdk-day-topic-subscribers\r",
+			"this.addSNSTopicSubscriber(\r",
+			"  sut.positiveOutputTopic,\r",
+			"  SimpleEventRouterTestStack.PositiveOutputSubscriberId\r",
+			");\r",
+			"\r",
+			"this.addSNSTopicSubscriber(\r",
+			"  sut.negativeOutputTopic,\r",
+			"  SimpleEventRouterTestStack.NegativeOutputSubscriberId\r",
+			");"
+		],
+		"description": "description for cdk-day-topic-subscribers"
+	},
+	"cdk-day-test-functions": {
+		"prefix": "cdk-day-test-functions",
+		"body": [
+			"// cdk-day-test-functions\r",
+			"testFunctionIds: [\r",
+			"  SimpleEventRouterTestStack.PositiveOutputSubscriberId,\r",
+			"  SimpleEventRouterTestStack.NegativeOutputSubscriberId,\r",
+			"],"
+		],
+		"description": "description for cdk-day-test-functions"
+	},
+	"cdk-day-sut": {
+		"prefix": "cdk-day-sut",
+		"body": [
+			"// cdk-day-sut\r",
+			"const sut = new SimpleEventRouterConstruct(this, 'SUT', {\r",
+			"  inputTopic: testDriverTopic,\r",
+			"});"
+		],
+		"description": "description for cdk-day-sut"
+	},
+	"cdk-day-test-driver": {
+		"prefix": "cdk-day-test-driver",
+		"body": [
+			"// cdk-day-test-driver\r",
+			"const testDriverTopic = new sns.Topic(\r",
+			"  this,\r",
+			"  SimpleEventRouterTestStack.TestDriverTopicId\r",
+			");\r",
+			"\r",
+			"this.addTestResourceTag(\r",
+			"  testDriverTopic,\r",
+			"  SimpleEventRouterTestStack.TestDriverTopicId\r",
+			");"
+		],
+		"description": "description for cdk-day-test-driver"
+	},
+	"cdk-day-stack-super": {
+		"prefix": "cdk-day-stack-super",
+		"body": [
+			"// cdk-day-stack-super\r",
+			"super(scope, id, {\r",
+			"  testStackId: SimpleEventRouterTestStack.Id,\r",
+			"  // cdk-day-test-functions\r",
+			"});"
+		],
+		"description": "description for cdk-day-stack-super"
+	},
+	"cdk-day-test-resource-ids": {
+		"prefix": "cdk-day-test-resource-ids",
+		"body": [
+			"// cdk-day-test-resource-ids\r",
+			"static readonly TestDriverTopicId = 'TestDriverTopic';\r",
+			"\r",
+			"static readonly PositiveOutputSubscriberId =\r",
+			"  'PositiveOutputSubscriberFunction';\r",
+			"\r",
+			"static readonly NegativeOutputSubscriberId =\r",
+			"  'NegativeOutputSubscriberFunction';"
+		],
+		"description": "description for cdk-day-test-resource-ids"
+	},
+	"cdk-day-stack-imports": {
+		"prefix": "cdk-day-stack-imports",
+		"body": [
+			"// cdk-day-stack-imports\r",
+			"import { aws_sns as sns } from 'aws-cdk-lib';\r",
+			"import SimpleEventRouterConstruct from './SimpleEventRouter';"
+		],
+		"description": "description for cdk-day-stack-imports"
+	}
+}
