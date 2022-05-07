@@ -11,7 +11,7 @@ const sns = new SNS();
 
 export const handler = async (event: SNSEvent): Promise<void> => {
   //
-  console.log(JSON.stringify({ event }, null, 2));
+  console.log(JSON.stringify({ event }));
 
   for await (const record of event.Records) {
     //
@@ -28,9 +28,6 @@ export const handler = async (event: SNSEvent): Promise<void> => {
         ? process.env.POSITIVE_OUTPUT_TOPIC
         : process.env.NEGATIVE_OUTPUT_TOPIC;
 
-    if (outputTopicArn === undefined)
-      throw new Error('outputTopicArn === undefined');
-
     const outputEventRequest: PublishInput = {
       TopicArn: outputTopicArn,
       Message: JSON.stringify(numbersEvent),
@@ -38,6 +35,6 @@ export const handler = async (event: SNSEvent): Promise<void> => {
 
     const outputEventResult = await sns.publish(outputEventRequest).promise();
 
-    console.log(JSON.stringify({ outputEventResult }, null, 2));
+    console.log(JSON.stringify({ outputEventResult }));
   }
 };

@@ -7,7 +7,9 @@ export class SimpleEventRouterTestStack extends IntegrationTestStack {
   //
   static readonly Id = 'SimpleEventRouterTestStack';
 
-  // cdk-day-test-resource-ids
+  // cdk-day-test-driver-id
+
+  // cdk-day-test-subscriber-ids
 
   constructor(scope: Construct, id: string) {
     //
@@ -18,7 +20,7 @@ export class SimpleEventRouterTestStack extends IntegrationTestStack {
 
     // cdk-day-test-driver
 
-    // // cdk-day-sut
+    // cdk-day-sut
 
     // cdk-day-topic-subscribers
   }

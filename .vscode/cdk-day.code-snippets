@@ -224,47 +224,6 @@
 		],
 		"description": "description for cdk-day-sut"
 	},
-	"cdk-day-test-driver": {
-		"prefix": "cdk-day-test-driver",
-		"body": [
-			"// cdk-day-test-driver\r",
-			"const testDriverTopic = new sns.Topic(\r",
-			"  this,\r",
-			"  SimpleEventRouterTestStack.TestDriverTopicId\r",
-			");\r",
-			"\r",
-			"this.addTestResourceTag(\r",
-			"  testDriverTopic,\r",
-			"  SimpleEventRouterTestStack.TestDriverTopicId\r",
-			");"
-		],
-		"description": "description for cdk-day-test-driver"
-	},
-	"cdk-day-stack-super": {
-		"prefix": "cdk-day-stack-super",
-		"body": [
-			"// cdk-day-stack-super\r",
-			"super(scope, id, {\r",
-			"  testStackId: SimpleEventRouterTestStack.Id,\r",
-			"  // cdk-day-test-functions\r",
-			"});"
-		],
-		"description": "description for cdk-day-stack-super"
-	},
-	"cdk-day-test-resource-ids": {
-		"prefix": "cdk-day-test-resource-ids",
-		"body": [
-			"// cdk-day-test-resource-ids\r",
-			"static readonly TestDriverTopicId = 'TestDriverTopic';\r",
-			"\r",
-			"static readonly PositiveOutputSubscriberId =\r",
-			"  'PositiveOutputSubscriberFunction';\r",
-			"\r",
-			"static readonly NegativeOutputSubscriberId =\r",
-			"  'NegativeOutputSubscriberFunction';"
-		],
-		"description": "description for cdk-day-test-resource-ids"
-	},
 	"cdk-day-stack-imports": {
 		"prefix": "cdk-day-stack-imports",
 		"body": [
@@ -273,5 +232,38 @@
 			"import SimpleEventRouterConstruct from './SimpleEventRouter';"
 		],
 		"description": "description for cdk-day-stack-imports"
+	},
+	"cdk-day-test-driver": {
+		"prefix": "cdk-day-test-driver",
+		"body": [
+			"// cdk-day-test-driver\r",
+			"const testDriverTopic = new sns.Topic(this, 'TestDriverTopic');\r",
+			"\r",
+			"this.addTestResourceTag(\r",
+			"  testDriverTopic,\r",
+			"  SimpleEventRouterTestStack.TestDriverTopicId\r",
+			");"
+		],
+		"description": "description for cdk-day-test-driver"
+	},
+	"cdk-day-test-driver-id": {
+		"prefix": "cdk-day-test-driver-id",
+		"body": [
+			"// cdk-day-test-driver-id\r",
+			"static readonly TestDriverTopicId = 'TestDriverTopic';"
+		],
+		"description": "description for cdk-day-test-driver-id"
+	},
+	"cdk-day-test-subscriber-ids": {
+		"prefix": "cdk-day-test-subscriber-ids",
+		"body": [
+			"// cdk-day-test-subscriber-ids\r",
+			"static readonly PositiveOutputSubscriberId =\r",
+			"  'PositiveOutputSubscriberFunction';\r",
+			"\r",
+			"static readonly NegativeOutputSubscriberId =\r",
+			"  'NegativeOutputSubscriberFunction';"
+		],
+		"description": "description for cdk-day-test-subscriber-ids"
 	}
 }

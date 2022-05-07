@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // cdk-day-test-import
 
@@ -7,7 +8,7 @@ describe('SimpleEventRouter Test Suite', () => {
 
   // cdk-day-before-each
 
-  it(`Routes positive sums`, async () => {
+  it('Routes a positive sum', async () => {
     // Arrange
 
     // cdk-day-create-event
@@ -35,7 +36,7 @@ describe('SimpleEventRouter Test Suite', () => {
     { values: [1, 2, -3], isExpectedPositive: true },
     { values: [1, -2, -3], isExpectedPositive: false },
   ].forEach((theory) => {
-    it(`Routes as expected: ${JSON.stringify(theory)}`, async () => {
+    it.skip(`Routes as expected: ${JSON.stringify(theory)}`, async () => {
       // cdk-day-theory-test
     });
   });
