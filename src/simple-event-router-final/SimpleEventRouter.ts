@@ -16,19 +16,9 @@ export default class SimpleEventRouterConstruct extends Construct {
   constructor(scope: Construct, id: string, props: SimpleEventRouterProps) {
     super(scope, id);
 
-    const outputTopicProps = {};
+    this.positiveOutputTopic = new Topic(this, 'PositiveOutputTopic');
 
-    this.positiveOutputTopic = new Topic(
-      this,
-      'PositiveOutputTopic',
-      outputTopicProps
-    );
-
-    this.negativeOutputTopic = new Topic(
-      this,
-      'NegativeOutputTopic',
-      outputTopicProps
-    );
+    this.negativeOutputTopic = new Topic(this, 'NegativeOutputTopic');
 
     const simpleEventRouterFunction = new NodejsFunction(
       scope,
