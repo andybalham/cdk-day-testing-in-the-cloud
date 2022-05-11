@@ -1,38 +1,36 @@
 import { Construct } from 'constructs';
-import {
-  aws_sns as sns,
-  aws_sns_subscriptions as snsSubs,
-  aws_lambda_nodejs as lambdaNodejs,
-} from 'aws-cdk-lib';
+import { ITopic, Topic } from 'aws-cdk-lib/aws-sns';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { LambdaSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
 
 export interface SimpleEventRouterProps {
-  inputTopic: sns.ITopic;
+  inputTopic: ITopic;
 }
 
 export default class SimpleEventRouterConstruct extends Construct {
   //
-  readonly positiveOutputTopic: sns.ITopic;
+  readonly positiveOutputTopic: ITopic;
 
-  readonly negativeOutputTopic: sns.ITopic;
+  readonly negativeOutputTopic: ITopic;
 
   constructor(scope: Construct, id: string, props: SimpleEventRouterProps) {
     super(scope, id);
 
     const outputTopicProps = {};
 
-    this.positiveOutputTopic = new sns.Topic(
+    this.positiveOutputTopic = new Topic(
       this,
       'PositiveOutputTopic',
       outputTopicProps
     );
 
-    this.negativeOutputTopic = new sns.Topic(
+    this.negativeOutputTopic = new Topic(
       this,
       'NegativeOutputTopic',
       outputTopicProps
     );
 
-    const simpleEventRouterFunction = new lambdaNodejs.NodejsFunction(
+    const simpleEventRouterFunction = new NodejsFunction(
       scope,
       'RouterFunction',
       {
@@ -45,7 +43,7 @@ export default class SimpleEventRouterConstruct extends Construct {
     );
 
     props.inputTopic.addSubscription(
-      new snsSubs.LambdaSubscription(simpleEventRouterFunction)
+      new LambdaSubscription(simpleEventRouterFunction)
     );
 
     this.positiveOutputTopic.grantPublish(simpleEventRouterFunction);

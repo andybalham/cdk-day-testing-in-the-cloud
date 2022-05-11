@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { Construct } from 'constructs';
-import { aws_sns as sns } from 'aws-cdk-lib';
 import { IntegrationTestStack } from '@andybalham/cdk-cloud-test-kit';
+import { Topic } from 'aws-cdk-lib/aws-sns';
 import SimpleEventRouterConstruct from './SimpleEventRouter';
 
 export class SimpleEventRouterTestStack extends IntegrationTestStack {
@@ -26,7 +26,7 @@ export class SimpleEventRouterTestStack extends IntegrationTestStack {
       ],
     });
 
-    const testInputTopic = new sns.Topic(
+    const testInputTopic = new Topic(
       this,
       SimpleEventRouterTestStack.TestInputTopicId
     );

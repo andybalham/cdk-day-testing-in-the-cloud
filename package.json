@@ -14,9 +14,9 @@
     "final-synth": "tsc && cdk synth SimpleEventRouterTestStack-Final > .cdk-synth.yml",
     "final-deploy": "tsc && cdk deploy SimpleEventRouterTestStack-Final --hotswap",
     "final-destroy": "tsc && cdk destroy SimpleEventRouterTestStack-Final",
-    "cdk-synth": "tsc && cdk synth SimpleEventRouterTestStack > .cdk-synth.yml",
-    "cdk-deploy": "tsc && cdk deploy SimpleEventRouterTestStack --hotswap",
-    "cdk-destroy": "tsc && cdk destroy SimpleEventRouterTestStack"
+    "cdk-synth": "cdk synth SimpleEventRouterTestStack > .cdk-synth.yml",
+    "cdk-deploy": "cdk deploy SimpleEventRouterTestStack --hotswap",
+    "cdk-destroy": "cdk destroy SimpleEventRouterTestStack"
   },
   "repository": {
     "type": "git",
@@ -63,9 +63,9 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
+    "@andybalham/cdk-cloud-test-kit": "^1.0.2",
     "aws-cdk-lib": "^2.0.0",
     "constructs": "^10.0.0",
-    "@andybalham/cdk-cloud-test-kit": "^1.0.1",
     "dotenv": "^10.0.0",
     "nanoid": "^3.0.0"
   }

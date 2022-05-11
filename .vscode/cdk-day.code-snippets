@@ -228,7 +228,7 @@
 		"prefix": "cdk-day-stack-imports",
 		"body": [
 			"// cdk-day-stack-imports\r",
-			"import { aws_sns as sns } from 'aws-cdk-lib';\r",
+			"import { Topic } from 'aws-cdk-lib/aws-sns';\r",
 			"import SimpleEventRouterConstruct from './SimpleEventRouter';"
 		],
 		"description": "description for cdk-day-stack-imports"
@@ -237,7 +237,7 @@
 		"prefix": "cdk-day-test-driver",
 		"body": [
 			"// cdk-day-test-driver\r",
-			"const testDriverTopic = new sns.Topic(this, 'TestDriverTopic');\r",
+			"const testDriverTopic = new Topic(this, 'TestDriverTopic');\r",
 			"\r",
 			"this.addTestResourceTag(\r",
 			"  testDriverTopic,\r",
