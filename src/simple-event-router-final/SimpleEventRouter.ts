@@ -25,7 +25,6 @@ export default class SimpleEventRouterConstruct extends Construct {
       'RouterFunction',
       {
         environment: {
-          INPUT_TOPIC_ARN: props.inputTopic.topicArn,
           POSITIVE_OUTPUT_TOPIC_ARN: this.positiveOutputTopic.topicArn,
           NEGATIVE_OUTPUT_TOPIC_ARN: this.negativeOutputTopic.topicArn,
         },
