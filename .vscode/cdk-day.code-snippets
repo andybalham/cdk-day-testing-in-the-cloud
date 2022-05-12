@@ -15,6 +15,34 @@
   // 	],
   // 	"description": "Log output to console"
   // }
+  "cdk-day-stack-imports": {
+    "prefix": "cdk-day-stack-imports",
+    "body": [
+      "// cdk-day-stack-imports\r",
+      "import { Topic } from 'aws-cdk-lib/aws-sns';\r",
+      "import { LambdaSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';\r",
+      "import SimpleEventRouterConstruct from './SimpleEventRouter';"
+    ],
+    "description": "description for cdk-day-stack-imports"
+  },
+  "cdk-day-topic-subscribers": {
+    "prefix": "cdk-day-topic-subscribers",
+    "body": [
+      "// cdk-day-topic-subscribers\r",
+      "const positiveOutputSubscriberFunction =\r",
+      "  this.testFunctions[SimpleEventRouterTestStack.PositiveOutputSubscriberId];\r",
+      "sut.positiveOutputTopic.addSubscription(\r",
+      "  new LambdaSubscription(positiveOutputSubscriberFunction)\r",
+      ");\r",
+      "\r",
+      "const negativeOutputSubscriberFunction =\r",
+      "  this.testFunctions[SimpleEventRouterTestStack.NegativeOutputSubscriberId];\r",
+      "sut.negativeOutputTopic.addSubscription(\r",
+      "  new LambdaSubscription(negativeOutputSubscriberFunction)\r",
+      ");"
+    ],
+    "description": "description for cdk-day-topic-subscribers"
+  },
   "cdk-day-test-import": {
     "prefix": "cdk-day-test-import",
     "body": [
@@ -187,83 +215,58 @@
     ],
     "description": "description for cdk-day-before"
   },
-	"cdk-day-topic-subscribers": {
-		"prefix": "cdk-day-topic-subscribers",
-		"body": [
-			"// cdk-day-topic-subscribers\r",
-			"this.addSNSTopicSubscriber(\r",
-			"  sut.positiveOutputTopic,\r",
-			"  SimpleEventRouterTestStack.PositiveOutputSubscriberId\r",
-			");\r",
-			"\r",
-			"this.addSNSTopicSubscriber(\r",
-			"  sut.negativeOutputTopic,\r",
-			"  SimpleEventRouterTestStack.NegativeOutputSubscriberId\r",
-			");"
-		],
-		"description": "description for cdk-day-topic-subscribers"
-	},
-	"cdk-day-test-functions": {
-		"prefix": "cdk-day-test-functions",
-		"body": [
-			"// cdk-day-test-functions\r",
-			"testFunctionIds: [\r",
-			"  SimpleEventRouterTestStack.PositiveOutputSubscriberId,\r",
-			"  SimpleEventRouterTestStack.NegativeOutputSubscriberId,\r",
-			"],"
-		],
-		"description": "description for cdk-day-test-functions"
-	},
-	"cdk-day-sut": {
-		"prefix": "cdk-day-sut",
-		"body": [
-			"// cdk-day-sut\r",
-			"const sut = new SimpleEventRouterConstruct(this, 'SUT', {\r",
-			"  inputTopic: testDriverTopic,\r",
-			"});"
-		],
-		"description": "description for cdk-day-sut"
-	},
-	"cdk-day-stack-imports": {
-		"prefix": "cdk-day-stack-imports",
-		"body": [
-			"// cdk-day-stack-imports\r",
-			"import { Topic } from 'aws-cdk-lib/aws-sns';\r",
-			"import SimpleEventRouterConstruct from './SimpleEventRouter';"
-		],
-		"description": "description for cdk-day-stack-imports"
-	},
-	"cdk-day-test-driver": {
-		"prefix": "cdk-day-test-driver",
-		"body": [
-			"// cdk-day-test-driver\r",
-			"const testDriverTopic = new Topic(this, 'TestDriverTopic');\r",
-			"\r",
-			"this.addTestResourceTag(\r",
-			"  testDriverTopic,\r",
-			"  SimpleEventRouterTestStack.TestDriverTopicId\r",
-			");"
-		],
-		"description": "description for cdk-day-test-driver"
-	},
-	"cdk-day-test-driver-id": {
-		"prefix": "cdk-day-test-driver-id",
-		"body": [
-			"// cdk-day-test-driver-id\r",
-			"static readonly TestDriverTopicId = 'TestDriverTopic';"
-		],
-		"description": "description for cdk-day-test-driver-id"
-	},
-	"cdk-day-test-subscriber-ids": {
-		"prefix": "cdk-day-test-subscriber-ids",
-		"body": [
-			"// cdk-day-test-subscriber-ids\r",
-			"static readonly PositiveOutputSubscriberId =\r",
-			"  'PositiveOutputSubscriberFunction';\r",
-			"\r",
-			"static readonly NegativeOutputSubscriberId =\r",
-			"  'NegativeOutputSubscriberFunction';"
-		],
-		"description": "description for cdk-day-test-subscriber-ids"
-	}
+  "cdk-day-test-functions": {
+    "prefix": "cdk-day-test-functions",
+    "body": [
+      "// cdk-day-test-functions\r",
+      "testFunctionIds: [\r",
+      "  SimpleEventRouterTestStack.PositiveOutputSubscriberId,\r",
+      "  SimpleEventRouterTestStack.NegativeOutputSubscriberId,\r",
+      "],"
+    ],
+    "description": "description for cdk-day-test-functions"
+  },
+  "cdk-day-sut": {
+    "prefix": "cdk-day-sut",
+    "body": [
+      "// cdk-day-sut\r",
+      "const sut = new SimpleEventRouterConstruct(this, 'SUT', {\r",
+      "  inputTopic: testDriverTopic,\r",
+      "});"
+    ],
+    "description": "description for cdk-day-sut"
+  },
+  "cdk-day-test-driver": {
+    "prefix": "cdk-day-test-driver",
+    "body": [
+      "// cdk-day-test-driver\r",
+      "const testDriverTopic = new Topic(this, 'TestDriverTopic');\r",
+      "\r",
+      "this.addTestResourceTag(\r",
+      "  testDriverTopic,\r",
+      "  SimpleEventRouterTestStack.TestDriverTopicId\r",
+      ");"
+    ],
+    "description": "description for cdk-day-test-driver"
+  },
+  "cdk-day-test-driver-id": {
+    "prefix": "cdk-day-test-driver-id",
+    "body": [
+      "// cdk-day-test-driver-id\r",
+      "static readonly TestDriverTopicId = 'TestDriverTopic';"
+    ],
+    "description": "description for cdk-day-test-driver-id"
+  },
+  "cdk-day-test-subscriber-ids": {
+    "prefix": "cdk-day-test-subscriber-ids",
+    "body": [
+      "// cdk-day-test-subscriber-ids\r",
+      "static readonly PositiveOutputSubscriberId =\r",
+      "  'PositiveOutputSubscriberFunction';\r",
+      "\r",
+      "static readonly NegativeOutputSubscriberId =\r",
+      "  'NegativeOutputSubscriberFunction';"
+    ],
+    "description": "description for cdk-day-test-subscriber-ids"
+  }
 }
