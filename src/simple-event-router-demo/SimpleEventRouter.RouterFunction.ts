@@ -32,8 +32,6 @@ export const handler = async (event: SNSEvent): Promise<void> => {
       Message: JSON.stringify(numbersEvent),
     };
 
-    const outputEventResult = await sns.publish(outputEventRequest).promise();
-
-    console.log(JSON.stringify({ outputEventResult }));
+    await sns.publish(outputEventRequest).promise();
   }
 };
