@@ -222,10 +222,12 @@
   "cdk-day-assert-event": {
     "prefix": "cdk-day-assert-event",
     "body": [
-      "// cdk-day-assert-event\r",
-      "const actualEvent = JSON.parse(positiveObservations[0].data.Records[0].Sns.Message);\r",
-      "\r",
-      "expect(actualEvent).to.deep.equal(testEvent);"
+			"// cdk-day-assert-event\r",
+			"const actualEvent = JSON.parse(\r",
+			"  positiveObservations[0].data.Records[0].Sns.Message\r",
+			");\r",
+			"\r",
+			"expect(actualEvent).to.deep.equal(testEvent);"
     ],
     "description": "description for cdk-day-assert-event"
   },
