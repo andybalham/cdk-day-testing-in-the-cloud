@@ -43,22 +43,6 @@
     ],
     "description": "description for cdk-day-topic-subscribers"
   },
-  "cdk-day-test-import": {
-    "prefix": "cdk-day-test-import",
-    "body": [
-      "// cdk-day-test-import\r",
-      "import { SNSEvent, SNSEventRecord } from 'aws-lambda';\r",
-      "import { expect } from 'chai';\r",
-      "import {\r",
-      "  TestObservation,\r",
-      "  IntegrationTestClient,\r",
-      "  SNSTestClient,\r",
-      "} from '@andybalham/cdk-cloud-test-kit';\r",
-      "import { Event } from './Event';\r",
-      "import { SimpleEventRouterTestStack as TestStack } from './SimpleEventRouterTestStack';"
-    ],
-    "description": "description for cdk-day-test-import"
-  },
   "cdk-day-theory-test": {
     "prefix": "cdk-day-theory-test",
     "body": [
@@ -227,22 +211,13 @@
     ],
     "description": "description for cdk-day-test-subscriber-ids"
   },
-  "cdk-day-assert-observations": {
-    "prefix": "cdk-day-assert-observations",
+  "cdk-day-assert-timeout": {
+    "prefix": "cdk-day-assert-timeout",
     "body": [
-      "// cdk-day-assert-observations\r",
-      "const positiveObservations = observations.filter(\r",
-      "  (o) => o.observerId === TestStack.PositiveOutputTopicSubscriberId\r",
-      ");\r",
-      "\r",
-      "const negativeObservations = observations.filter(\r",
-      "  (o) => o.observerId === TestStack.NegativeOutputTopicSubscriberId\r",
-      ");\r",
-      "\r",
-      "expect(positiveObservations.length).to.be.greaterThan(0);\r",
-      "expect(negativeObservations.length).to.equal(0);"
+      "// cdk-day-assert-timeout\r",
+      "expect(timedOut, 'timedOut').to.be.false;"
     ],
-    "description": "description for cdk-day-assert-observations"
+    "description": "description for cdk-day-assert-timeout"
   },
   "cdk-day-assert-event": {
     "prefix": "cdk-day-assert-event",
@@ -253,5 +228,36 @@
       "expect(actualEvent).to.deep.equal(testEvent);"
     ],
     "description": "description for cdk-day-assert-event"
+  },
+  "cdk-day-assert-observations": {
+    "prefix": "cdk-day-assert-observations",
+    "body": [
+      "// cdk-day-assert-observations\r",
+      "const positiveObservations = observations.filter(\r",
+      "  (o) => o.observerId === TestStack.PositiveOutputSubscriberId\r",
+      ");\r",
+      "\r",
+      "const negativeObservations = observations.filter(\r",
+      "  (o) => o.observerId === TestStack.NegativeOutputSubscriberId\r",
+      ");\r",
+      "\r",
+      "expect(positiveObservations.length).to.be.greaterThan(0);\r",
+      "expect(negativeObservations.length).to.equal(0);"
+    ],
+    "description": "description for cdk-day-assert-observations"
+  },
+  "cdk-day-test-import": {
+    "prefix": "cdk-day-test-import",
+    "body": [
+      "// cdk-day-test-import\r",
+      "import { expect } from 'chai';\r",
+      "import {\r",
+      "  IntegrationTestClient,\r",
+      "  SNSTestClient,\r",
+      "} from '@andybalham/cdk-cloud-test-kit';\r",
+      "import { Event } from './Event';\r",
+      "import { SimpleEventRouterTestStack as TestStack } from './SimpleEventRouterTestStack';"
+    ],
+    "description": "description for cdk-day-test-import"
   }
 }

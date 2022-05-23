@@ -26,18 +26,18 @@ describe('SimpleEventRouter Test Suite', () => {
     // cdk-day-assert-timeout
 
     // cdk-day-assert-observations
-    
+
     // cdk-day-assert-event
   });
 
-  [
-    { values: [], isExpectedPositive: true },
-    { values: [1, 2, 3], isExpectedPositive: true },
-    { values: [1, 2, -3], isExpectedPositive: true },
-    { values: [1, -2, -3], isExpectedPositive: false },
-  ].forEach((theory) => {
-    it.skip(`Routes as expected: ${JSON.stringify(theory)}`, async () => {
-      // cdk-day-theory-test
-    });
-  });
+  // [
+  //   { values: [], isExpectedPositive: true },
+  //   { values: [1, 2, 3], isExpectedPositive: true },
+  //   { values: [1, 2, -3], isExpectedPositive: true },
+  //   { values: [1, -2, -3], isExpectedPositive: false },
+  // ].forEach((theory) => {
+  //   it(`Routes as expected: ${JSON.stringify(theory)}`, async () => {
+  //     cdk-day-theory-test
+  //   });
+  // });
 });
