@@ -7,7 +7,7 @@ import {
   SNSTestClient,
 } from '@andybalham/cdk-cloud-test-kit';
 import { Event } from './Event';
-import { SimpleEventRouterTestStack as TestStack } from './SimpleEventRouterTestStack';
+import { SimpleEventRouterTestStackFinal as TestStack } from './SimpleEventRouterTestStack';
 
 describe('SimpleEventRouter Test Suite', () => {
   //
@@ -50,27 +50,22 @@ describe('SimpleEventRouter Test Suite', () => {
 
     expect(timedOut, 'timedOut').to.be.false;
 
-    const positiveObservations = TestObservation.filterById(
-      observations,
-      TestStack.PositiveOutputTopicSubscriberId
+    const positiveObservations = observations.filter(
+      (o) => o.observerId === TestStack.PositiveOutputTopicSubscriberId
     );
 
-    const negativeObservations = TestObservation.filterById(
-      observations,
-      TestStack.NegativeOutputTopicSubscriberId
+    const negativeObservations = observations.filter(
+      (o) => o.observerId === TestStack.NegativeOutputTopicSubscriberId
     );
 
     expect(positiveObservations.length).to.be.greaterThan(0);
     expect(negativeObservations.length).to.equal(0);
 
-    const positiveEventRecords = TestObservation.getEventRecords<
-      SNSEvent,
-      SNSEventRecord
-    >(positiveObservations);
+    const actualEvent = JSON.parse(
+      positiveObservations[0].data.Records[0].Sns.Message
+    );
 
-    const routedEvent = JSON.parse(positiveEventRecords[0].Sns.Message);
-
-    expect(routedEvent).to.deep.equal(testEvent);
+    expect(actualEvent).to.deep.equal(testEvent);
   });
 
   [

@@ -115,48 +115,6 @@
     ],
     "description": "description for cdk-day-theory-test"
   },
-  "cdk-day-assert-event": {
-    "prefix": "cdk-day-assert-event",
-    "body": [
-      "// cdk-day-assert-event\r",
-      "const positiveEventRecords = TestObservation.getEventRecords<\r",
-      "  SNSEvent,\r",
-      "  SNSEventRecord\r",
-      ">(positiveObservations);\r",
-      "\r",
-      "const routedEvent = JSON.parse(positiveEventRecords[0].Sns.Message);\r",
-      "\r",
-      "expect(routedEvent).to.deep.equal(testEvent);"
-    ],
-    "description": "description for cdk-day-assert-event"
-  },
-  "cdk-day-assert-observations": {
-    "prefix": "cdk-day-assert-observations",
-    "body": [
-      "// cdk-day-assert-observations\r",
-      "const positiveObservations = TestObservation.filterById(\r",
-      "  observations,\r",
-      "  TestStack.PositiveOutputSubscriberId\r",
-      ");\r",
-      "\r",
-      "const negativeObservations = TestObservation.filterById(\r",
-      "  observations,\r",
-      "  TestStack.NegativeOutputSubscriberId\r",
-      ");\r",
-      "\r",
-      "expect(positiveObservations.length).to.be.greaterThan(0);\r",
-      "expect(negativeObservations.length).to.equal(0);"
-    ],
-    "description": "description for cdk-day-assert-observations"
-  },
-  "cdk-day-assert-timeout": {
-    "prefix": "cdk-day-assert-timeout",
-    "body": [
-      "// cdk-day-assert-timeout\r",
-      "expect(timedOut, 'timedOut').to.be.false;"
-    ],
-    "description": "description for cdk-day-assert-timeout"
-  },
   "cdk-day-poll-observations": {
     "prefix": "cdk-day-poll-observations",
     "body": [
@@ -268,5 +226,32 @@
       "  'NegativeOutputSubscriberFunction';"
     ],
     "description": "description for cdk-day-test-subscriber-ids"
+  },
+  "cdk-day-assert-observations": {
+    "prefix": "cdk-day-assert-observations",
+    "body": [
+      "// cdk-day-assert-observations\r",
+      "const positiveObservations = observations.filter(\r",
+      "  (o) => o.observerId === TestStack.PositiveOutputTopicSubscriberId\r",
+      ");\r",
+      "\r",
+      "const negativeObservations = observations.filter(\r",
+      "  (o) => o.observerId === TestStack.NegativeOutputTopicSubscriberId\r",
+      ");\r",
+      "\r",
+      "expect(positiveObservations.length).to.be.greaterThan(0);\r",
+      "expect(negativeObservations.length).to.equal(0);"
+    ],
+    "description": "description for cdk-day-assert-observations"
+  },
+  "cdk-day-assert-event": {
+    "prefix": "cdk-day-assert-event",
+    "body": [
+      "// cdk-day-assert-event\r",
+      "const actualEvent = JSON.parse(positiveObservations[0].data.Records[0].Sns.Message);\r",
+      "\r",
+      "expect(actualEvent).to.deep.equal(testEvent);"
+    ],
+    "description": "description for cdk-day-assert-event"
   }
 }

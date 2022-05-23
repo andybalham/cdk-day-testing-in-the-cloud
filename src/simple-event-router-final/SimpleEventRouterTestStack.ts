@@ -4,7 +4,7 @@ import { IntegrationTestStack } from '@andybalham/cdk-cloud-test-kit';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import SimpleEventRouterConstruct from './SimpleEventRouter';
 
-export class SimpleEventRouterTestStack extends IntegrationTestStack {
+export class SimpleEventRouterTestStackFinal extends IntegrationTestStack {
   //
   static readonly Id = `SimpleEventRouterTestStack-Final`;
 
@@ -19,21 +19,21 @@ export class SimpleEventRouterTestStack extends IntegrationTestStack {
   constructor(scope: Construct, id: string) {
     //
     super(scope, id, {
-      testStackId: SimpleEventRouterTestStack.Id,
+      testStackId: SimpleEventRouterTestStackFinal.Id,
       testFunctionIds: [
-        SimpleEventRouterTestStack.PositiveOutputTopicSubscriberId,
-        SimpleEventRouterTestStack.NegativeOutputTopicSubscriberId,
+        SimpleEventRouterTestStackFinal.PositiveOutputTopicSubscriberId,
+        SimpleEventRouterTestStackFinal.NegativeOutputTopicSubscriberId,
       ],
     });
 
     const testInputTopic = new Topic(
       this,
-      SimpleEventRouterTestStack.TestInputTopicId
+      SimpleEventRouterTestStackFinal.TestInputTopicId
     );
 
     this.addTestResourceTag(
       testInputTopic,
-      SimpleEventRouterTestStack.TestInputTopicId
+      SimpleEventRouterTestStackFinal.TestInputTopicId
     );
 
     const sut = new SimpleEventRouterConstruct(this, 'SUT', {
@@ -42,12 +42,12 @@ export class SimpleEventRouterTestStack extends IntegrationTestStack {
 
     this.addSNSTopicSubscriber(
       sut.positiveOutputTopic,
-      SimpleEventRouterTestStack.PositiveOutputTopicSubscriberId
+      SimpleEventRouterTestStackFinal.PositiveOutputTopicSubscriberId
     );
 
     this.addSNSTopicSubscriber(
       sut.negativeOutputTopic,
-      SimpleEventRouterTestStack.NegativeOutputTopicSubscriberId
+      SimpleEventRouterTestStackFinal.NegativeOutputTopicSubscriberId
     );
   }
 }
