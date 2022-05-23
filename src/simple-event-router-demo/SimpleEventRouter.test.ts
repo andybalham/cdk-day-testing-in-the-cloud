@@ -8,7 +8,7 @@ describe('SimpleEventRouter Test Suite', () => {
 
   // cdk-day-before-each
 
-  it('Routes a positive sum', async () => {
+  it('Routes a positive sum as expected', async () => {
     // Arrange
 
     // cdk-day-create-event
@@ -29,15 +29,4 @@ describe('SimpleEventRouter Test Suite', () => {
 
     // cdk-day-assert-event
   });
-
-  // [
-  //   { values: [], isExpectedPositive: true },
-  //   { values: [1, 2, 3], isExpectedPositive: true },
-  //   { values: [1, 2, -3], isExpectedPositive: true },
-  //   { values: [1, -2, -3], isExpectedPositive: false },
-  // ].forEach((theory) => {
-  //   it(`Routes as expected: ${JSON.stringify(theory)}`, async () => {
-  //     cdk-day-theory-test
-  //   });
-  // });
 });
